@@ -1,0 +1,23 @@
+AI GAZET – website bestanden
+============================
+
+Zo zet je dit online (GitHub → Netlify):
+1. Ga naar github.com/rickschaick/aigazet
+2. Verwijder eerst het oude index.html (klik op het bestand → drie puntjes → Delete file → Commit).
+3. Klik op "+" → "Upload files" en sleep ALLE mappen en bestanden uit deze zip
+   (index.html, ai-nieuws.html, ai-toekomst.html, over-ai-gazet.html, 404.html,
+   sitemap.xml, robots.txt, favicon.svg en de mappen artikelen/, css/, img/) in het vak.
+   Tip: selecteer alles tegelijk in je verkenner en sleep het in één keer.
+4. Klik "Commit changes". Netlify zet het binnen een minuut live.
+
+Mappen:
+  artikelen/   één pagina per artikel (bestandsnaam = webadres)
+  img/         afbeeldingen, zelfde naam als het artikel (bijv. ai-robotica.jpg)
+  css/         de opmaak (style.css) – gedeeld door alle pagina's
+
+Nieuw artikel toevoegen:
+  - Kopieer een bestaand artikel in artikelen/, hernoem het (bijv. 2026-09-11-onderwerp.html)
+  - Zet de afbeelding in img/ met dezelfde naam
+  - Voeg een kaartje toe op index.html en ai-nieuws.html
+  - Voeg de nieuwe URL toe aan sitemap.xml
+  Of: stuur de tekst + afbeelding naar Claude en laat de bestanden maken.
