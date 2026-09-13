@@ -1,23 +1,20 @@
-AI GAZET – website bestanden
-============================
+AI GAZET – website bestanden (editie 13 september 2026)
+=======================================================
 
 Zo zet je dit online (GitHub → Netlify):
 1. Ga naar github.com/rickschaick/aigazet
-2. Verwijder eerst het oude index.html (klik op het bestand → drie puntjes → Delete file → Commit).
-3. Klik op "+" → "Upload files" en sleep ALLE mappen en bestanden uit deze zip
-   (index.html, ai-nieuws.html, ai-toekomst.html, over-ai-gazet.html, 404.html,
-   sitemap.xml, robots.txt, favicon.svg en de mappen artikelen/, css/, img/) in het vak.
-   Tip: selecteer alles tegelijk in je verkenner en sleep het in één keer.
-4. Klik "Commit changes". Netlify zet het binnen een minuut live.
+2. Klik op "+" → "Upload files" en sleep ALLE mappen en bestanden uit deze zip
+   in het vak (index.html, ai-nieuws.html, ai-toekomst.html, over-ai-gazet.html,
+   404.html, sitemap.xml, robots.txt, favicon.svg en de mappen artikelen/, css/, img/).
+   Bestanden met dezelfde naam worden automatisch vervangen; nieuwe worden toegevoegd.
+3. Klik "Commit changes". Netlify zet het binnen een minuut live.
 
-Mappen:
-  artikelen/   één pagina per artikel (bestandsnaam = webadres)
-  img/         afbeeldingen, zelfde naam als het artikel (bijv. ai-robotica.jpg)
-  css/         de opmaak (style.css) – gedeeld door alle pagina's
-
-Nieuw artikel toevoegen:
-  - Kopieer een bestaand artikel in artikelen/, hernoem het (bijv. 2026-09-11-onderwerp.html)
-  - Zet de afbeelding in img/ met dezelfde naam
-  - Voeg een kaartje toe op index.html en ai-nieuws.html
-  - Voeg de nieuwe URL toe aan sitemap.xml
-  Of: stuur de tekst + afbeelding naar Claude en laat de bestanden maken.
+Nieuw in deze editie (7 artikelen):
+  artikelen/ai-versnelt-wie-houdt-de-regie.html      (hoofdartikel)
+  artikelen/ai-modelmoeheid.html
+  artikelen/ai-voorspelt-glucoseverloop.html
+  artikelen/cognition-autonome-ai-agenten.html
+  artikelen/enschede-ai-gesprekken-inwoners.html
+  artikelen/eu-ai-act-governance.html
+  artikelen/agi-hype-menselijke-intelligentie.html   (onder AI toekomst)
+Alle eerdere artikelen staan er nog en zijn te vinden via AI nieuws en AI toekomst.
