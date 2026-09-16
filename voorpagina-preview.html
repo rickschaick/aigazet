@@ -1,0 +1,799 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <title>AI Gazet — Praktische AI voor het Nederlandse MKB | Preview</title>
+
+  <meta
+    name="description"
+    content="Praktisch AI-nieuws, zakelijke do’s en don’ts en lessen voor Nederlandse MKB-ondernemers."
+  >
+
+  <!-- Dit is een preview, niet bedoeld voor zoekmachines. -->
+  <meta name="robots" content="noindex,follow">
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    /* Aanvullingen gelden uitsluitend voor deze preview. */
+    .mkb {
+      --green: #254b3b;
+      --green-light: #e9eee6;
+      --warm: #f3e6df;
+    }
+
+    .mkb main section[id] {
+      scroll-margin-top: 100px;
+    }
+
+    .mkb .preview-note {
+      padding: 10px 18px;
+      background: #eee2bf;
+      color: #493c22;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .mkb .skip {
+      position: absolute;
+      top: -100px;
+      left: 16px;
+      padding: 12px;
+      background: var(--ink);
+      color: white;
+      z-index: 20;
+    }
+
+    .mkb .skip:focus {
+      top: 16px;
+    }
+
+    .mkb .top .wrap {
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .mkb .hero {
+      padding: 44px 0;
+    }
+
+    .mkb .hero-layout {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .mkb .hero h1 {
+      font-size: clamp(44px, 6vw, 76px);
+      letter-spacing: -.045em;
+      line-height: 1.03;
+      margin: 16px 0 20px;
+    }
+
+    .mkb .hero h1 span {
+      color: var(--green);
+    }
+
+    .mkb .hero p {
+      font: 18px/1.65 system-ui, sans-serif;
+      max-width: 630px;
+      margin: 0 0 16px;
+    }
+
+    .mkb .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .mkb .btn.secondary {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+
+    .mkb .btn.secondary:hover {
+      background: var(--green-light);
+    }
+
+    .mkb .editor-box {
+      background: var(--green);
+      color: white;
+      padding: 28px;
+    }
+
+    .mkb .editor-box .kicker {
+      color: #e0e9c9;
+    }
+
+    .mkb .editor-box h2 {
+      font-size: 31px;
+      margin: 14px 0 20px;
+    }
+
+    .mkb .editor-box ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .mkb .editor-box li {
+      padding: 11px 0;
+      border-bottom: 1px solid #ffffff35;
+      font-size: 15px;
+    }
+
+    .mkb .editor-box li:last-child {
+      border-bottom: none;
+    }
+
+    .mkb .section {
+      padding: 42px 0;
+    }
+
+    .mkb .section h2 {
+      font-size: clamp(32px, 4vw, 45px);
+      letter-spacing: -.035em;
+    }
+
+    .mkb .section-intro {
+      max-width: 390px;
+      font-size: 15px;
+      margin: 0;
+    }
+
+    .mkb .quick-links {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      padding-top: 18px;
+      padding-bottom: 18px;
+      font-size: 14px;
+    }
+
+    .mkb .quick-links a {
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      padding: 6px 13px;
+      text-decoration: none;
+    }
+
+    .mkb .quick-links a:hover {
+      background: var(--green-light);
+    }
+
+    .mkb .card {
+      min-width: 0;
+      min-height: 0;
+    }
+
+    .mkb .card h3 {
+      line-height: 1.15;
+    }
+
+    .mkb .takeaway {
+      padding: 14px;
+      background: var(--green-light);
+      color: var(--green);
+      font-size: 14px;
+      margin: 4px 0 18px;
+    }
+
+    .mkb .takeaway strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .mkb .image-label {
+      font-size: 11px;
+      color: var(--muted);
+      margin: -12px 0 16px;
+    }
+
+    .mkb .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+
+    .mkb .advice {
+      padding: 28px;
+      background: var(--green-light);
+    }
+
+    .mkb .advice.dont {
+      background: var(--warm);
+    }
+
+    .mkb .advice h3 {
+      font-size: 29px;
+      margin: 12px 0 20px;
+    }
+
+    .mkb .advice ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .mkb .advice li {
+      margin: 0 0 15px;
+    }
+
+    .mkb .advice li:last-child {
+      margin-bottom: 0;
+    }
+
+    .mkb .advice strong {
+      display: block;
+    }
+
+    .mkb .advice li span {
+      color: #4f5552;
+      font-size: 15px;
+    }
+
+    .mkb .case-panel {
+      padding: 28px;
+      background: var(--card);
+      border: 1px solid var(--line);
+    }
+
+    .mkb .case-panel h3 {
+      font-size: 29px;
+      margin: 12px 0;
+    }
+
+    .mkb .case-panel p {
+      color: var(--muted);
+    }
+
+    .mkb .case-panel ol {
+      padding-left: 22px;
+      margin-bottom: 0;
+    }
+
+    .mkb .case-panel li {
+      margin-bottom: 12px;
+    }
+
+    .mkb .status-tag {
+      display: inline-block;
+      padding: 4px 9px;
+      background: #eee2bf;
+      color: #493c22;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .mkb .newsletter {
+      background: var(--green);
+      color: white;
+      padding: 34px;
+      margin: 42px 0;
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .mkb .newsletter h2 {
+      font-size: clamp(32px, 4vw, 43px);
+      margin: 12px 0;
+    }
+
+    .mkb .newsletter .kicker {
+      color: #e0e9c9;
+    }
+
+    .mkb .newsletter p {
+      color: #e7ede4;
+      margin-bottom: 0;
+    }
+
+    .mkb .newsletter-status {
+      border: 1px solid #ffffff50;
+      padding: 22px;
+    }
+
+    .mkb .newsletter-status p {
+      font-size: 14px;
+    }
+
+    .mkb .transparency {
+      max-width: 800px;
+      padding-bottom: 42px;
+    }
+
+    .mkb .transparency h2 {
+      font-size: 30px;
+    }
+
+    .mkb .transparency p {
+      color: var(--muted);
+    }
+
+    @media (max-width: 800px) {
+      .mkb .hero-layout,
+      .mkb .two-col,
+      .mkb .newsletter {
+        grid-template-columns: 1fr;
+      }
+
+      .mkb .hero-layout {
+        gap: 26px;
+      }
+
+      .mkb .section-head {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 16px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .mkb .hero {
+        padding: 30px 0;
+      }
+
+      .mkb .newsletter {
+        padding: 24px;
+      }
+
+      .mkb .hero-actions .btn {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body class="mkb">
+  <a href="#inhoud" class="skip">Ga naar de inhoud</a>
+
+  <div class="preview-note">
+    <strong>Ontwerpvoorstel:</strong>
+    bestaande artikelen zijn nog niet inhoudelijk geverifieerd.
+    De nieuwsbrief is nog niet actief.
+  </div>
+
+  <div class="top">
+    <div class="wrap">
+      <span>AI Gazet · Praktische AI voor ondernemend Nederland</span>
+      <span>Nieuws · Do’s & don’ts · Praktijk</span>
+    </div>
+  </div>
+
+  <header id="hdr">
+    <div class="wrap nav">
+      <a class="brand" href="voorpagina-preview.html">
+        AI <span>Gazet</span>
+      </a>
+
+      <button
+        class="menu-btn"
+        type="button"
+        aria-expanded="false"
+        aria-controls="mainnav"
+        id="menu-toggle"
+      >
+        Menu
+      </button>
+
+      <nav id="mainnav" aria-label="Hoofdmenu">
+        <a href="#zakelijk">Zakelijk lezen</a>
+        <a href="#dos-donts">Do’s & don’ts</a>
+        <a href="#praktijk">Praktijk</a>
+        <a href="ai-nieuws.html">AI-nieuws</a>
+        <a href="#nieuwsbrief">Weekupdate</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="inhoud">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="wrap hero-layout">
+        <div>
+          <div class="kicker">Voor het Nederlandse MKB</div>
+
+          <h1 id="hero-title">
+            Wat werkt met AI<br>
+            in <span>jouw bedrijf?</span>
+          </h1>
+
+          <p>
+            Wat kun je ermee, wat levert het op en waar moet je voor
+            oppassen? AI Gazet helpt ondernemers om voorbij de hype
+            te kijken.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn" href="#zakelijk">Begin hier →</a>
+            <a class="btn secondary" href="#dos-donts">
+              Bekijk de do’s & don’ts
+            </a>
+          </div>
+        </div>
+
+        <aside class="editor-box" aria-labelledby="meetlat-title">
+          <div class="kicker">De zakelijke meetlat</div>
+
+          <h2 id="meetlat-title">
+            Niet de nieuwste tool.<br>
+            Wel de juiste toepassing.
+          </h2>
+
+          <ul>
+            <li>Welk probleem wil je oplossen?</li>
+            <li>Wat kost het, inclusief controle?</li>
+            <li>Hoe meet je of het beter werkt?</li>
+            <li>Wanneer moet een mens ingrijpen?</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <div class="wrap quick-links" aria-label="Onderwerpen">
+      <strong>Ik wil meer weten over:</strong>
+      <a href="#zakelijk">AI kiezen</a>
+      <a href="#dos-donts">Veilig starten</a>
+      <a href="#praktijk">Resultaten meten</a>
+      <a href="ai-toekomst.html">Toekomst & trends</a>
+    </div>
+
+    <section class="section" id="zakelijk" aria-labelledby="zakelijk-title">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Geselecteerd op zakelijke relevantie</div>
+            <h2 id="zakelijk-title">Begin bij je bedrijfsvraag</h2>
+          </div>
+
+          <p class="section-intro">
+            Drie ingangen naar bestaande artikelen.
+            De teksten en bronnen van deze artikelen vragen nog
+            redactionele controle.
+          </p>
+        </div>
+
+        <div class="grid">
+          <article class="card">
+            <div class="card-body">
+              <div class="tag">Tools & rendement</div>
+
+              <h3>
+                <a href="artikelen/ai-modelmoeheid.html">
+                  Moet je overstappen op iedere nieuwe AI-tool?
+                </a>
+              </h3>
+
+              <p>
+                Een nieuwe release is niet automatisch een betere keuze
+                voor jouw werkproces.
+              </p>
+
+              <div class="takeaway">
+                <strong>De praktische vraag</strong>
+                Levert overstappen genoeg op om testen,
+                inrichting en opleiding te rechtvaardigen?
+              </div>
+
+              <a class="read" href="artikelen/ai-modelmoeheid.html">
+                Lees het bestaande artikel →
+              </a>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-body">
+              <div class="tag">Beleid & verantwoordelijkheid</div>
+
+              <h3>
+                <a href="artikelen/eu-ai-act-governance.html">
+                  Wie houdt binnen jouw bedrijf toezicht op AI?
+                </a>
+              </h3>
+
+              <p>
+                AI raakt niet alleen IT, maar ook medewerkers,
+                klantgegevens en zakelijke beslissingen.
+              </p>
+
+              <div class="takeaway">
+                <strong>De praktische vraag</strong>
+                Is duidelijk wie toepassingen goedkeurt
+                en wie fouten of incidenten opvolgt?
+              </div>
+
+              <a class="read" href="artikelen/eu-ai-act-governance.html">
+                Lees het bestaande artikel →
+              </a>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-body">
+              <div class="tag">Werk & processen</div>
+
+              <h3>
+                <a href="artikelen/ai-agents-werk.html">
+                  Welke taak kun je als eerste met AI ondersteunen?
+                </a>
+              </h3>
+
+              <p>
+                Kijk naar afzonderlijke werkzaamheden in plaats
+                van meteen naar het automatiseren van complete banen.
+              </p>
+
+              <div class="takeaway">
+                <strong>De praktische vraag</strong>
+                Welke terugkerende taak kun je afbakenen,
+                testen en goed controleren?
+              </div>
+
+              <a class="read" href="artikelen/ai-agents-werk.html">
+                Lees het bestaande artikel →
+              </a>
+            </div>
+          </article>
+        </div>
+
+        <p>
+          <a class="btn secondary" href="ai-nieuws.html">
+            Bekijk het volledige nieuwsarchief →
+          </a>
+        </p>
+      </div>
+    </section>
+
+    <section class="section" id="dos-donts" aria-labelledby="dos-title">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Bespreek dit met je team</div>
+            <h2 id="dos-title">Wel doen. Niet doen.</h2>
+          </div>
+
+          <p class="section-intro">
+            Praktische startpunten, geen volledige juridische
+            of beveiligingsbeoordeling.
+          </p>
+        </div>
+
+        <div class="two-col">
+          <article class="advice">
+            <div class="kicker">Wel doen</div>
+            <h3>Begin klein en meet eerlijk.</h3>
+
+            <ul>
+              <li>
+                <strong>Kies één duidelijk probleem.</strong>
+                <span>
+                  Bijvoorbeeld het opstellen van een concepttekst
+                  met niet-vertrouwelijke informatie.
+                </span>
+              </li>
+              <li>
+                <strong>Spreek af welke gegevens gebruikt mogen worden.</strong>
+                <span>
+                  Controleer de instellingen, voorwaarden en
+                  toegangsrechten van de gekozen toepassing.
+                </span>
+              </li>
+              <li>
+                <strong>Tel controle en herstel mee.</strong>
+                <span>
+                  Sneller genereren is niet hetzelfde als
+                  sneller een bruikbaar eindresultaat hebben.
+                </span>
+              </li>
+              <li>
+                <strong>Wijs een verantwoordelijke aan.</strong>
+                <span>
+                  Maak duidelijk wie uitkomsten beoordeelt en
+                  wanneer de proef wordt stopgezet.
+                </span>
+              </li>
+            </ul>
+          </article>
+
+          <article class="advice dont">
+            <div class="kicker">Niet doen</div>
+            <h3>Verwar overtuiging niet met bewijs.</h3>
+
+            <ul>
+              <li>
+                <strong>Zomaar klantdossiers uploaden.</strong>
+                <span>
+                  Onderzoek eerst privacy, beveiliging en
+                  afspraken met klanten en leveranciers.
+                </span>
+              </li>
+              <li>
+                <strong>AI-bronnen zonder controle overnemen.</strong>
+                <span>
+                  Open de oorspronkelijke publicatie en controleer
+                  of deze de bewering daadwerkelijk ondersteunt.
+                </span>
+              </li>
+              <li>
+                <strong>Alles direct automatisch versturen.</strong>
+                <span>
+                  Houd passende controle op offertes, klantantwoorden
+                  en andere zakelijke toezeggingen.
+                </span>
+              </li>
+              <li>
+                <strong>Alleen op de abonnementsprijs letten.</strong>
+                <span>
+                  Neem ook inrichting, opleiding, beheer
+                  en mogelijke overstapkosten mee.
+                </span>
+              </li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="praktijk" aria-labelledby="praktijk-title">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Van experiment naar aantoonbaar resultaat</div>
+            <h2 id="praktijk-title">Wat levert AI echt op?</h2>
+          </div>
+
+          <p class="section-intro">
+            Voorstel voor een nieuwe praktijkrubriek.
+            Hier horen echte ondernemers en controleerbare resultaten.
+          </p>
+        </div>
+
+        <div class="two-col">
+          <article class="case-panel">
+            <span class="status-tag">Rubriek in voorbereiding</span>
+
+            <h3>Jouw bedrijf als praktijkcase?</h3>
+
+            <p>
+              Gebruik je AI voor administratie, offertes, marketing
+              of klantcontact? Een interessant verhaal gaat niet
+              alleen over succes, maar ook over kosten, fouten
+              en wat je anders zou doen.
+            </p>
+
+            <p>
+              In deze preview staat nog geen bewezen praktijkcase.
+              Een financieringsronde of productaankondiging
+              is op zichzelf geen bewijs van klantresultaat.
+            </p>
+          </article>
+
+          <aside class="case-panel" aria-labelledby="case-check">
+            <div class="kicker">Vaste opbouw voor iedere case</div>
+            <h3 id="case-check">Vier vragen vóór publicatie</h3>
+
+            <ol>
+              <li>
+                <strong>Wat was de beginsituatie?</strong><br>
+                Het probleem en de oorspronkelijke werkwijze.
+              </li>
+              <li>
+                <strong>Wat is er veranderd?</strong><br>
+                De toepassing, invoering en menselijke controle.
+              </li>
+              <li>
+                <strong>Wat is gemeten?</strong><br>
+                Resultaat, meetperiode en volledige kosten.
+              </li>
+              <li>
+                <strong>Wat zijn de beperkingen?</strong><br>
+                Tegenvoorbeelden, fouten en lessen voor andere bedrijven.
+              </li>
+            </ol>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap">
+      <section
+        class="newsletter"
+        id="nieuwsbrief"
+        aria-labelledby="newsletter-title"
+      >
+        <div>
+          <div class="kicker">Voorstel: de AI Gazet Weekupdate</div>
+          <h2 id="newsletter-title">Meer houvast.<br>Minder AI-ruis.</h2>
+
+          <p>
+            Iedere vrijdag één relevante ontwikkeling,
+            één praktijkles en één zakelijke do of don’t.
+          </p>
+        </div>
+
+        <div class="newsletter-status">
+          <strong>Nieuwsbrief nog niet actief</strong>
+          <p>
+            Hier komt de inschrijving zodra de nieuwsbriefdienst,
+            privacy-informatie en afmeldmogelijkheid zijn ingericht.
+            Deze preview verzamelt geen e-mailadressen.
+          </p>
+        </div>
+      </section>
+
+      <section class="transparency" aria-labelledby="transparency-title">
+        <div class="kicker">Transparantie over AI-gebruik</div>
+
+        <h2 id="transparency-title">AI helpt bij de productie.</h2>
+
+        <p>
+          AI Gazet gebruikt ChatGPT voor het herschrijven van teksten
+          en het maken van afbeeldingen. Dat maakt een artikel niet
+          automatisch gecontroleerd. Bronnen, namen, bedragen en
+          conclusies moeten afzonderlijk worden beoordeeld.
+        </p>
+
+        <p>
+          <strong>Voor deze preview:</strong>
+          de bestaande artikelen zijn niet opnieuw geverifieerd.
+          De redactionele beloften op de huidige Over-pagina
+          moeten nog worden afgestemd op de daadwerkelijke werkwijze.
+        </p>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div>
+        <div class="brand">AI <span>Gazet</span></div>
+        <p>Praktische AI voor ondernemend Nederland.</p>
+        <p>Ontwerpvoorstel · nog niet de definitieve voorpagina.</p>
+      </div>
+
+      <nav aria-label="Voettekst">
+        <a href="index.html">Huidige voorpagina</a>
+        <a href="ai-nieuws.html">AI-nieuws</a>
+        <a href="ai-toekomst.html">Toekomst & trends</a>
+        <a href="over-ai-gazet.html">Over AI Gazet</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    const header = document.getElementById("hdr");
+    const toggle = document.getElementById("menu-toggle");
+    const navigation = document.getElementById("mainnav");
+
+    function closeMenu() {
+      header.classList.remove("open");
+      toggle.setAttribute("aria-expanded", "false");
+    }
+
+    toggle.addEventListener("click", function () {
+      const isOpen = header.classList.toggle("open");
+      toggle.setAttribute("aria-expanded", String(isOpen));
+    });
+
+    navigation.addEventListener("click", function (event) {
+      if (event.target.closest("a")) {
+        closeMenu();
+      }
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && header.classList.contains("open")) {
+        closeMenu();
+        toggle.focus();
+      }
+    });
+  </script>
+</body>
+</html>
