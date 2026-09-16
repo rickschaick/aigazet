@@ -1,0 +1,746 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,follow">
+<title>AI-kansencheck voor het MKB | AI Gazet</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+<style>
+  :root {
+    --paper: #f7f5ef;
+    --card: #fffdf8;
+    --ink: #18211d;
+    --muted: #59635d;
+    --green: #254b3b;
+    --light: #e9eee6;
+    --accent: #b73c29;
+    --line: #d9d6cd;
+    --warm: #f4e8dc;
+  }
+
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font: 16px/1.65 system-ui, sans-serif;
+  }
+
+  h1, h2, h3, .brand {
+    font-family: Georgia, serif;
+    line-height: 1.12;
+  }
+
+  h1 {
+    font-size: clamp(36px, 6vw, 62px);
+    letter-spacing: -.04em;
+    margin: 14px 0 20px;
+  }
+
+  h2 {
+    font-size: clamp(28px, 4vw, 38px);
+    margin: 0 0 18px;
+  }
+
+  h3 { font-size: 24px; margin: 0 0 14px; }
+  p { margin: 0 0 16px; }
+  a { color: inherit; text-underline-offset: 4px; }
+
+  a:focus-visible, button:focus-visible,
+  input:focus-visible, select:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 4px;
+  }
+
+  .wrap { max-width: 960px; margin: auto; padding: 0 24px; }
+
+  .test-banner {
+    padding: 8px 20px;
+    background: #eee2bf;
+    color: #493c22;
+    text-align: center;
+    font-size: 13px;
+  }
+
+  header { border-bottom: 1px solid var(--line); }
+
+  .header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding-top: 22px;
+    padding-bottom: 22px;
+  }
+
+  .brand {
+    font-size: 32px;
+    font-weight: 800;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .brand span { color: var(--accent); }
+  .back { font-size: 14px; }
+
+  .intro { padding: 40px 0 24px; max-width: 750px; }
+  .intro p { color: var(--muted); font-size: 18px; }
+
+  .kicker {
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+
+  .panel {
+    background: var(--card);
+    border: 1px solid var(--line);
+    padding: 30px;
+    margin-bottom: 24px;
+  }
+
+  .small { font-size: 14px; color: var(--muted); }
+
+  .question {
+    padding: 24px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  label {
+    display: block;
+    font-size: 18px;
+    font-weight: 750;
+    margin-bottom: 8px;
+  }
+
+  .hint { font-size: 14px; color: var(--muted); margin-bottom: 12px; }
+
+  select, input {
+    display: block;
+    width: 100%;
+    min-height: 48px;
+    padding: 12px;
+    border: 1px solid #89958b;
+    border-radius: 4px;
+    background: white;
+    color: var(--ink);
+    font: inherit;
+  }
+
+  button {
+    min-height: 48px;
+    padding: 12px 20px;
+    border: 1px solid var(--green);
+    border-radius: 3px;
+    background: var(--green);
+    color: white;
+    font: 750 16px/1.4 system-ui, sans-serif;
+    cursor: pointer;
+  }
+
+  button:hover { background: #173629; }
+
+  button.secondary {
+    background: transparent;
+    color: var(--green);
+  }
+
+  button.secondary:hover { background: var(--light); }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 22px;
+  }
+
+  .result-head {
+    background: var(--green);
+    color: white;
+    padding: 30px;
+    margin: 30px 0 24px;
+  }
+
+  .result-head .kicker { color: #dce8c8; }
+  .result-head h2 { margin-top: 14px; }
+  .result-head p { margin-bottom: 0; }
+
+  .result-head:focus { outline: 3px solid var(--accent); }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+
+  .box { padding: 24px; background: var(--light); }
+  .box.dont { background: var(--warm); }
+
+  ul, ol { padding-left: 22px; margin: 0; }
+  li { margin-bottom: 10px; }
+  li:last-child { margin-bottom: 0; }
+
+  .warning {
+    padding: 18px;
+    background: var(--warm);
+    border-left: 4px solid var(--accent);
+    margin-top: 20px;
+  }
+
+  dl {
+    display: grid;
+    grid-template-columns: minmax(110px, 1fr) 2fr;
+    gap: 10px 20px;
+    margin: 0;
+  }
+
+  dt { font-weight: 750; }
+  dd { margin: 0; overflow-wrap: anywhere; }
+
+  .table-wrap { overflow-x: auto; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin-top: 20px;
+  }
+
+  caption {
+    text-align: left;
+    font-weight: 750;
+    margin-bottom: 10px;
+  }
+
+  th, td {
+    padding: 12px;
+    border: 1px solid var(--line);
+    text-align: left;
+  }
+
+  th { background: var(--light); }
+  td { min-width: 85px; }
+  .number { font-size: 28px; color: var(--green); }
+
+  .newsletter-note {
+    border-top: 1px solid var(--line);
+    padding: 24px 0;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 24px 0;
+    margin-top: 24px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  @media (max-width: 620px) {
+    .wrap { padding: 0 18px; }
+    .header-inner { padding-top: 18px; padding-bottom: 18px; }
+    .panel, .result-head { padding: 22px; }
+    .grid { grid-template-columns: 1fr; }
+    dl { grid-template-columns: 1fr; gap: 3px; }
+    dd { margin-bottom: 12px; }
+    .actions button { width: 100%; }
+  }
+
+  @media print {
+    @page { margin: 16mm; }
+
+    body { background: white; color: black; font-size: 11pt; }
+    .wrap { max-width: none; padding: 0; }
+
+    .no-print, #question-panel, .intro, .back { display: none !important; }
+
+    header { margin-bottom: 18px; }
+    .header-inner { padding: 0 0 12px; }
+    .brand { font-size: 24pt; }
+    h2 { font-size: 22pt; }
+    h3 { font-size: 16pt; }
+
+    .result-head, .box, .warning {
+      background: white;
+      color: black;
+      border: 1px solid #aaa;
+      padding: 16px;
+    }
+
+    .result-head .kicker, .number { color: black; }
+    .panel { border: 1px solid #aaa; padding: 16px; }
+    .grid { display: block; }
+    .box { margin-bottom: 16px; }
+
+    .box, .warning, tr { break-inside: avoid; }
+    h2, h3 { break-after: avoid; }
+    .table-wrap { overflow: visible; }
+    table { font-size: 9pt; }
+    th, td { padding: 8px; min-width: 0; }
+    .small, .hint, footer { color: #333; }
+  }
+</style>
+</head>
+
+<body>
+<div class="test-banner no-print">
+  Testversie · Geen nieuwsbriefkoppeling of e-mailverzending
+</div>
+
+<header>
+  <div class="wrap header-inner">
+    <a href="voorpagina-preview.html" class="brand">AI <span>Gazet</span></a>
+    <a href="voorpagina-preview.html" class="back">← Naar de voorpagina</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="intro">
+    <div class="kicker">Van idee naar een kleine proef</div>
+    <h1>Waar liggen jouw<br>AI-kansen?</h1>
+    <p>
+      Beantwoord vijf vragen. Je krijgt een startplan met een mogelijke
+      toepassing, aandachtspunten en een manier om het resultaat te meten.
+    </p>
+  </div>
+
+  <noscript>
+    <div class="panel">
+      Deze keuzehulp heeft JavaScript nodig om een startplan te tonen.
+      Schakel JavaScript in om de vragenlijst te gebruiken.
+    </div>
+  </noscript>
+
+  <section id="question-panel" class="panel" hidden aria-labelledby="form-title">
+    <h2 id="form-title">Vertel iets over je werk</h2>
+
+    <p class="small">
+      Deze versie kiest uit vooraf geschreven adviezen. Hij gebruikt geen
+      AI-model en doet geen onderzoek naar jouw bedrijf.
+      Vul geen namen, klantgegevens of andere vertrouwelijke informatie in.
+    </p>
+
+    <form id="check-form" autocomplete="off">
+      <div class="question">
+        <label for="sector">1. In welke sector werk je?</label>
+        <select id="sector" required>
+          <option value="" disabled selected>Kies je sector</option>
+          <option value="dienstverlening">Zakelijke dienstverlening</option>
+          <option value="handel">Handel of webshop</option>
+          <option value="techniek">Bouw, installatie of techniek</option>
+          <option value="zorg">Zorg of welzijn</option>
+          <option value="horeca">Horeca of recreatie</option>
+          <option value="anders">Andere sector</option>
+        </select>
+      </div>
+
+      <div class="question">
+        <label for="task">2. Welke taak wil je onderzoeken?</label>
+        <select id="task" required>
+          <option value="" disabled selected>Kies één taak</option>
+          <option value="administratie">Administratie en documenten</option>
+          <option value="offertes">Offertes en voorstellen</option>
+          <option value="marketing">Marketing en content</option>
+          <option value="klanten">Klantvragen beantwoorden</option>
+          <option value="kennis">Informatie zoeken en samenvatten</option>
+        </select>
+      </div>
+
+      <div class="question">
+        <label for="hours">3. Hoeveel uur kost die taak per week?</label>
+        <p class="hint" id="hours-hint">
+          Schat het totaal voor de mensen die aan jouw proef meedoen.
+          Dit is een beginsituatie, geen voorspelde besparing.
+        </p>
+        <input
+          id="hours"
+          type="number"
+          min="0.5"
+          max="10000"
+          step="0.5"
+          placeholder="Bijvoorbeeld 5"
+          aria-describedby="hours-hint"
+          required
+        >
+      </div>
+
+      <div class="question">
+        <label for="data">4. Welke informatie is voor de taak nodig?</label>
+        <select id="data" required>
+          <option value="" disabled selected>Kies het best passende antwoord</option>
+          <option value="openbaar">Alleen openbare of fictieve informatie</option>
+          <option value="intern">Interne bedrijfsinformatie</option>
+          <option value="persoonlijk">Persoonsgegevens of vertrouwelijke dossiers</option>
+          <option value="onzeker">Dat weet ik nog niet</option>
+        </select>
+      </div>
+
+      <div class="question">
+        <label for="experience">5. Hoeveel ervaring heeft je team met AI?</label>
+        <select id="experience" required>
+          <option value="" disabled selected>Kies je situatie</option>
+          <option value="start">We beginnen net</option>
+          <option value="proef">We experimenteren af en toe</option>
+          <option value="regelmatig">We gebruiken AI regelmatig</option>
+        </select>
+      </div>
+
+      <button type="submit">Maak mijn startplan →</button>
+
+      <p class="small" style="margin-top:16px;margin-bottom:0">
+        De antwoorden worden door deze code alleen in deze pagina verwerkt,
+        niet naar een server verstuurd of in browseropslag bewaard.
+        Een hostingprovider kan wel normale bezoekgegevens verwerken.
+      </p>
+    </form>
+  </section>
+
+  <section id="result" hidden aria-labelledby="result-title">
+    <div class="result-head" id="result-focus" tabindex="-1">
+      <div class="kicker">Jouw AI-startplan · Keuzehulp versie 1</div>
+      <h2 id="result-title"></h2>
+      <p id="result-intro"></p>
+    </div>
+
+    <div class="panel">
+      <h3>Jouw uitgangspunt</h3>
+      <dl id="answers"></dl>
+
+      <div class="warning">
+        <strong>Eerst controleren</strong>
+        <p id="data-advice" style="margin:8px 0 0"></p>
+      </div>
+
+      <p id="sector-advice" style="margin:20px 0 0"></p>
+    </div>
+
+    <div class="grid">
+      <div class="box">
+        <h3>Wel doen</h3>
+        <ul id="do-list"></ul>
+      </div>
+
+      <div class="box dont">
+        <h3>Niet doen</h3>
+        <ul id="dont-list"></ul>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>Een kleine proef in vier stappen</h3>
+      <p id="experience-advice"></p>
+      <ol id="trial-list"></ol>
+    </div>
+
+    <div class="panel">
+      <h3>Wat moet je meten?</h3>
+      <p>
+        Je opgegeven tijdsbesteding:
+        <strong class="number" id="baseline"></strong> per week.
+      </p>
+
+      <p>
+        Dit is je eigen schatting, geen gemeten nulmeting.
+        Vergelijk vóór en tijdens de proef soortgelijke taken met
+        dezelfde kwaliteitseisen. Tel controle en herstel altijd mee.
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>Meetblad om na het afdrukken in te vullen</caption>
+          <thead>
+            <tr>
+              <th scope="col">Wat meet je?</th>
+              <th scope="col">Zonder AI</th>
+              <th scope="col">Met AI</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Aantal vergelijkbare taken</th>
+              <td>…………</td><td>…………</td>
+            </tr>
+            <tr>
+              <th scope="row">Totale uitvoeringstijd</th>
+              <td>…………</td><td>…………</td>
+            </tr>
+            <tr>
+              <th scope="row">Extra controle- en hersteltijd</th>
+              <td>…………</td><td>…………</td>
+            </tr>
+            <tr>
+              <th scope="row">Aantal goedgekeurde resultaten</th>
+              <td>…………</td><td>…………</td>
+            </tr>
+            <tr>
+              <th scope="row">Fouten of incidenten</th>
+              <td>…………</td><td>…………</td>
+            </tr>
+            <tr>
+              <th scope="row">Tool- en gebruikskosten</th>
+              <td>…………</td><td>…………</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="small" style="margin-top:18px">
+        Noteer inrichting en opleiding apart als eenmalige kosten.
+        Bespaarde tijd is niet automatisch een besparing in euro’s:
+        dat hangt af van wat je met die tijd kunt doen.
+      </p>
+    </div>
+
+    <div class="panel">
+      <h3>Doorgaan, aanpassen of stoppen?</h3>
+      <p id="decision-advice"></p>
+      <p class="small" style="margin-bottom:0">
+        Dit startplan is een eerste verkenning. Het is geen garantie
+        op rendement en geen juridische, medische of
+        informatiebeveiligingsbeoordeling.
+      </p>
+    </div>
+
+    <div class="actions no-print">
+      <button id="print-button" type="button">Afdrukken / opslaan als PDF</button>
+      <button id="edit-button" type="button" class="secondary">Antwoorden aanpassen</button>
+    </div>
+
+    <p class="small no-print" style="margin-top:12px">
+      Kies in het afdrukvenster “Opslaan als PDF” als je browser dat aanbiedt.
+      Lokaal opgeslagen PDF’s blijven bestaan nadat je de pagina sluit.
+    </p>
+
+    <div class="newsletter-note no-print">
+      <strong>Nieuwsbriefkoppeling volgt later.</strong>
+      Deze testversie vraagt geen e-mailadres en schrijft niemand in.
+      Er wordt geen startplan per e-mail verzonden.
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    AI Gazet · Praktische AI voor het Nederlandse MKB<br>
+    Regelgebaseerde keuzehulp · Geen individueel advies of bewezen bedrijfsresultaat
+  </div>
+</footer>
+
+<script>
+"use strict";
+
+const $ = id => document.getElementById(id);
+
+const tasks = {
+  administratie: {
+    title: "Onderzoek: conceptdocumenten en samenvattingen",
+    intro: "Test of AI informatie kan structureren volgens een vast sjabloon. Laat de uitkomst controleren voordat deze in een administratie of dossier terechtkomt.",
+    dos: [
+      "Gebruik één documenttype en een vast sjabloon.",
+      "Laat ontbrekende gegevens markeren in plaats van aanvullen.",
+      "Vergelijk namen, bedragen, datums en conclusies met het origineel."
+    ],
+    donts: [
+      "Laat AI niet zelfstandig boekingen of betalingen uitvoeren.",
+      "Behandel een samenvatting niet als vervanging van de bron.",
+      "Gebruik geen echte dossiers zolang gegevensverwerking niet is beoordeeld."
+    ],
+    pilot: "Kies vijf tot tien fictieve of toegestane documenten van hetzelfde type. Maak met en zonder AI hetzelfde einddocument.",
+    metric: "Controleer volledigheid, feitelijke fouten en tijd per goedgekeurd document."
+  },
+
+  offertes: {
+    title: "Onderzoek: AI als hulp bij conceptoffertes",
+    intro: "Laat AI een eerste tekstvoorstel maken op basis van een vast format. Prijzen, voorwaarden en zakelijke toezeggingen blijven onder menselijke controle.",
+    dos: [
+      "Gebruik een gecontroleerd offertesjabloon.",
+      "Haal prijzen en productspecificaties uit een betrouwbare bron.",
+      "Laat iemand met de juiste bevoegdheid iedere offerte goedkeuren."
+    ],
+    donts: [
+      "Laat AI geen prijzen, levertijden of garanties verzinnen.",
+      "Verstuur een offerte niet automatisch tijdens de eerste proef.",
+      "Gebruik geen vertrouwelijke klantinformatie zonder passende beoordeling."
+    ],
+    pilot: "Maak vijf fictieve aanvragen met verschillende eisen. Vergelijk hoe lang een goedgekeurde conceptofferte met en zonder AI kost.",
+    metric: "Controleer prijzen, volledigheid, voorwaarden en tijd inclusief correcties."
+  },
+
+  marketing: {
+    title: "Onderzoek: conceptcontent vanuit je eigen briefing",
+    intro: "Test AI voor eerste versies van zakelijke content. De winst moet zitten in bruikbare teksten, niet alleen in meer geproduceerde woorden.",
+    dos: [
+      "Maak een briefing met doelgroep, doel, toon en gecontroleerde productinformatie.",
+      "Controleer feitelijke claims, bronverwijzingen en rechten.",
+      "Laat een medewerker beoordelen of de tekst bij je bedrijf past."
+    ],
+    donts: [
+      "Verzin geen klantreviews, onderzoeksresultaten of keurmerken.",
+      "Publiceer geen gezondheids- of prestatieclaims zonder onderbouwing.",
+      "Kopieer niet blind de tekst of herkenbare vormgeving van een ander."
+    ],
+    pilot: "Schrijf vijf korte contentstukken op basis van dezelfde briefings, met en zonder AI. Laat ze volgens dezelfde criteria beoordelen.",
+    metric: "Meet de tijd tot goedkeuring, het correctiewerk en de inhoudelijke kwaliteit."
+  },
+
+  klanten: {
+    title: "Onderzoek: conceptantwoorden op terugkerende klantvragen",
+    intro: "Begin met antwoorden die een medewerker controleert en verstuurt. Een interne antwoordsuggestie is een kleinere eerste stap dan een volledig autonome chatbot.",
+    dos: [
+      "Gebruik een actuele, goedgekeurde lijst met vragen en antwoorden.",
+      "Laat onbekende vragen en uitzonderingen naar een medewerker gaan.",
+      "Controleer toon, juistheid en ongewenste toezeggingen."
+    ],
+    donts: [
+      "Laat AI geen teruggaven, contractwijzigingen of andere toezeggingen doen.",
+      "Sluit de route naar menselijk contact niet af.",
+      "Geef geen onbeperkte toegang tot klantaccounts of dossiers."
+    ],
+    pilot: "Gebruik tien fictieve klantvragen: gewone vragen, uitzonderingen en vragen waarop het antwoord ontbreekt.",
+    metric: "Meet juiste antwoorden, correcte doorverwijzingen en totale behandeltijd."
+  },
+
+  kennis: {
+    title: "Onderzoek: sneller zoeken in een afgebakende bronset",
+    intro: "Laat AI helpen bij het vinden en samenvatten van informatie uit gecontroleerde documenten. Het antwoord moet terug te voeren zijn op de bron.",
+    dos: [
+      "Begin met een kleine, actuele verzameling toegestane documenten.",
+      "Vraag om bronverwijzingen die je daadwerkelijk kunt openen.",
+      "Test ook vragen waarop de documenten geen antwoord geven."
+    ],
+    donts: [
+      "Behandel een plausibele bronverwijzing niet als bewijs.",
+      "Maak interne informatie niet toegankelijk voor onbevoegde medewerkers.",
+      "Laat het systeem ontbrekende kennis niet als zekerheid presenteren."
+    ],
+    pilot: "Stel tien vragen over een kleine documentenset. Neem ook enkele vragen op die niet met die documenten te beantwoorden zijn.",
+    metric: "Meet juistheid, brononderbouwing, zoekduur en omgang met ontbrekende informatie."
+  }
+};
+
+const sectorAdvice = {
+  dienstverlening: "Voor zakelijke dienstverlening: controleer vooral klantafspraken, geheimhouding en de verantwoordelijkheid voor adviezen.",
+  handel: "Voor handel en webshops: controleer prijzen, voorraad, productspecificaties en retourvoorwaarden tegen de actuele bron.",
+  techniek: "Voor bouw en techniek: gebruik deze proef niet voor veiligheidskritische berekeningen, technische goedkeuringen of instructies zonder bevoegde vakinhoudelijke controle.",
+  zorg: "Voor zorg en welzijn: beperk deze eerste verkenning tot fictieve, niet-klinische voorbeelden. Gebruik dit startplan niet voor diagnose, behandeling of patiëntbeslissingen; medische toepassingen vragen aanvullende toetsing.",
+  horeca: "Voor horeca en recreatie: controleer prijzen, reserveringsvoorwaarden en vooral allergeneninformatie. Laat veiligheidsrelevante informatie nooit ongecontroleerd genereren.",
+  anders: "Voor jouw sector: bepaal vóór de proef welke beroepsregels, contractuele afspraken en veiligheidseisen van toepassing zijn."
+};
+
+const dataAdvice = {
+  openbaar: "Ook openbare informatie kan auteursrechtelijk beschermd zijn of persoonsgegevens bevatten. Controleer of gebruik is toegestaan en houd vertrouwelijke informatie buiten de proef.",
+  intern: "Voer interne informatie niet zomaar in een AI-tool in. Controleer eerst toestemming binnen je bedrijf, toegangsrechten, voorwaarden, bewaartermijnen en beveiliging. Gebruik tot die tijd fictieve voorbeelden.",
+  persoonlijk: "Begin niet met echte persoonsgegevens of vertrouwelijke dossiers. Laat eerst grondslag, dataminimalisatie, leveranciersafspraken en beveiliging beoordelen; afhankelijk van het risico kan een DPIA nodig zijn. Gebruik voor deze eerste proef volledig fictieve data.",
+  onzeker: "Breng eerst in kaart welke gegevens de taak nodig heeft. Zolang dat niet duidelijk is, gebruik je alleen volledig fictieve voorbeelden en geef je geen toegang tot bedrijfssystemen."
+};
+
+const experienceAdvice = {
+  start: "Voor beginners: kies één verantwoordelijke en één toegestane tool. Werk handmatig, zonder koppelingen met bedrijfssystemen.",
+  proef: "Als je al experimenteert: werk met een vaste instructie en leg de instellingen vast, zodat je resultaten kunt vergelijken.",
+  regelmatig: "Als je AI regelmatig gebruikt: leg de modelversie, instellingen en beoordelingscriteria vast. Test wijzigingen opnieuw voordat je ze breed inzet."
+};
+
+function addList(id, items) {
+  const list = $(id);
+  list.replaceChildren();
+
+  items.forEach(text => {
+    const li = document.createElement("li");
+    li.textContent = text;
+    list.appendChild(li);
+  });
+}
+
+function optionText(id) {
+  return $(id).selectedOptions[0].textContent;
+}
+
+function addAnswer(label, value) {
+  const term = document.createElement("dt");
+  const description = document.createElement("dd");
+  term.textContent = label;
+  description.textContent = value;
+  $("answers").append(term, description);
+}
+
+$("question-panel").hidden = false;
+
+$("check-form").addEventListener("submit", function(event) {
+  event.preventDefault();
+  if (!this.reportValidity()) return;
+
+  const sector = $("sector").value;
+  const task = $("task").value;
+  const data = $("data").value;
+  const experience = $("experience").value;
+  const hours = Number($("hours").value);
+
+  if (
+    !Object.hasOwn(tasks, task) ||
+    !Object.hasOwn(sectorAdvice, sector) ||
+    !Object.hasOwn(dataAdvice, data) ||
+    !Object.hasOwn(experienceAdvice, experience) ||
+    !Number.isFinite(hours) ||
+    hours < 0.5 ||
+    hours > 10000
+  ) return;
+
+  const plan = tasks[task];
+  const hoursText = new Intl.NumberFormat("nl-NL", {
+    maximumFractionDigits: 1
+  }).format(hours) + " uur";
+
+  $("result-title").textContent = plan.title;
+  $("result-intro").textContent = plan.intro;
+  $("data-advice").textContent = dataAdvice[data];
+  $("sector-advice").textContent = sectorAdvice[sector];
+  $("experience-advice").textContent = experienceAdvice[experience];
+  $("baseline").textContent = hoursText;
+
+  $("answers").replaceChildren();
+  addAnswer("Sector", optionText("sector"));
+  addAnswer("Taak", optionText("task"));
+  addAnswer("Tijdsbesteding", hoursText + " per week (eigen schatting)");
+  addAnswer("Informatie", optionText("data"));
+  addAnswer("Ervaring", optionText("experience"));
+
+  addList("do-list", plan.dos);
+  addList("dont-list", plan.donts);
+
+  addList("trial-list", [
+    "Bepaal vooraf wie controleert, welke gegevens zijn toegestaan en bij welke fouten je stopt. Spreek een kleine tijds- en kostenlimiet af.",
+    plan.pilot + " Deze kleine proef is een eerste verkenning, geen bewijs dat de toepassing overal betrouwbaar is.",
+    plan.metric + " Houd de uitvoeringstijd en extra controle- en hersteltijd apart bij, zodat je ze niet dubbel telt.",
+    "Bespreek de resultaten. Breid alleen uit als kwaliteit, veiligheid en totale inspanning voldoende zijn. Onderzoek bij twijfel eerst de oorzaak."
+  ]);
+
+  $("decision-advice").textContent =
+    "Ga alleen verder als de resultaten aan vooraf afgesproken kwaliteitseisen voldoen en de toepassing beheersbaar blijft. " +
+    "Stop of pas de proef aan bij vertrouwelijkheidsproblemen, ernstige fouten of meer werk dan voordeel. " +
+    "Beoordeel vóór echte inzet opnieuw de gegevens, toegangsrechten en gevolgen voor klanten en medewerkers.";
+
+  $("question-panel").hidden = true;
+  $("result").hidden = false;
+  $("result-focus").focus();
+});
+
+$("edit-button").addEventListener("click", function() {
+  $("result").hidden = true;
+  $("question-panel").hidden = false;
+  $("sector").focus();
+});
+
+$("print-button").addEventListener("click", function() {
+  window.print();
+});
+</script>
+</body>
+</html>
