@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://aigazet.nl/</loc><lastmod>2026-09-15</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
-  <url><loc>https://aigazet.nl/ai-nieuws.html</loc><lastmod>2026-09-15</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://aigazet.nl/</loc><lastmod>2026-09-24</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://aigazet.nl/ai-nieuws.html</loc><lastmod>2026-09-24</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
   <url><loc>https://aigazet.nl/ai-toekomst.html</loc><lastmod>2026-09-13</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>https://aigazet.nl/over-ai-gazet.html</loc><lastmod>2026-09-10</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://aigazet.nl/artikelen/meta-muse-ai-agent.html</loc><lastmod>2026-09-10</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -31,4 +31,9 @@
   <url><loc>https://aigazet.nl/artikelen/suno-ai-muziek-warner-bmg.html</loc><lastmod>2026-09-09</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://aigazet.nl/artikelen/ai-datacenters-energienet.html</loc><lastmod>2026-09-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://aigazet.nl/artikelen/seattle-times-newsday-openai-rechtszaak.html</loc><lastmod>2026-09-04</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://aigazet.nl/artikelen/ai-toezicht-en-verantwoordelijkheid.html</loc><lastmod>2026-09-24</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://aigazet.nl/artikelen/ai-medicijnontwikkeling.html</loc><lastmod>2026-09-24</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://aigazet.nl/artikelen/rabobank-agentic-ai.html</loc><lastmod>2026-09-24</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://aigazet.nl/artikelen/ai-platformbeheer-vindex.html</loc><lastmod>2026-09-24</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://aigazet.nl/artikelen/ai-gadgets-privacy.html</loc><lastmod>2026-09-24</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
 </urlset>
